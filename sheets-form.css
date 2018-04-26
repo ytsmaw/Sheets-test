@@ -1,0 +1,186 @@
+p{
+    font: 18px Verdana;
+    height: 30px;
+    margin-bottom: 0px;
+}
+
+input{
+    background: white;
+    border: 2px solid black;
+    height: 30px;
+    font: 16px Verdana;
+}
+
+select{
+    background: white;
+    border: 2px solid black;
+    height: 30px;
+    font: 16px Verdana;
+}
+
+#content-wrapper{
+    width: 540px;
+    display: block;
+    margin: auto;
+}
+
+#newProjectFormWrapper{
+    box-sizing: border-box;
+    width: 100%;
+    border: 10px solid black;
+    border-top: 5px solid black;
+    padding: 10px;
+    background: #DDDDDD;
+    position: relative;
+    margin-bottom: 50px;
+}
+
+#sandwichedWrapper{
+    position: relative;
+    height: 150;
+    display: block;
+    width: 100%;
+}
+
+#leftSideWrapper{
+    width: 45%;
+    position: absolute;
+    display: block;
+    left: 0px;
+}
+
+#rightSideWrapper{
+    width: 45%;
+    position: absolute;
+    display: block;
+    right: 0px;
+}
+
+#newProjectFormWrapper #name{
+    width: 345px;
+    position: relative;
+    left: 18px;
+}
+
+#newProjectFormWrapper #firstStation{
+    width: 100px;
+    position: absolute;
+    right: 0px;
+}
+
+#newProjectFormWrapper #lastStation{
+    width: 100px;
+    position: absolute;
+    right: 0px;
+}
+
+#newProjectFormWrapper #totalMade{
+    width: 100px;
+    position: absolute;
+    right: 0px;
+}
+
+#newProjectFormWrapper #numDiscs{
+    width: 100px;
+    position: absolute;
+    right: 0px;
+}
+
+#newProjectFormWrapper #numInserts{
+    width: 100px;
+    position: absolute;
+    right: 0px;
+}
+
+#newProjectFormWrapper #size{
+    width: 100px;
+    position: absolute;
+    right: 0px;
+}
+
+#newProjectFormWrapper #newProjectSubmit{
+    width: 80%;
+    text-align: center;
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.newProjectLabel{
+    position: absolute;
+    right: 106px;
+}
+
+#newProjectTitle{
+    font: 22px Verdana;
+    text-align: center;
+    background: black;
+    color: white;
+    border-top: 5px solid black;
+}
+
+
+
+#activeProjects{
+    width: 100%;
+    border: 5px solid black;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+#noActiveProjects{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+#activeProjectsTitle{
+    width: 100%;
+    font: 22px Verdana;
+    text-align: center;
+    background: black;
+    color: white;
+    padding-top: 5px;
+}
+
+.projectWrapper{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px;
+    position: relative;
+    color: white;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.projectName{
+    color: white;
+    font: 20px verdana;
+    height: 30px;
+}
+
+.endProjectButton{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.stationField{
+    width: 40px;
+}
+
+.projectCngStationSubmit{
+    position: absolute;
+    right: 5px;
+}
+
+.projectTotalMade{
+}
+
+.projectDate{
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
