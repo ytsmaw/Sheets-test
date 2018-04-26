@@ -27,13 +27,13 @@
                         <p><label for="lastStation" class="newProjectLabel">Last Station:</label>
                             <input id="lastStation" name="lastStation" type="number" value="" min=1 max=8></p>
                         <p><label for="totalMade" class="newProjectLabel">Total made:</label>
-                            <input id="totalMade" name="totalMade" type="number" value=""></p>
+                            <input id="totalMade" name="totalMade" type="number" value="" min=1></p>
                     </div>
                     <div id="rightSideWrapper">
                         <p><label for="numDiscs" class="newProjectLabel"># of Discs:</label>
                             <input id="numDiscs" name="numDiscs" type="number" value=1></p>
                         <p><label for="numInserts" class="newProjectLabel"># of Inserts:</label>
-                            <input id="numInserts" name="numInserts" type="number" value=1></p>
+                            <input id="numInserts" name="numInserts" type="number" value=0 min=0></p>
                         <p><label for="size" class="newProjectLabel">Size:</label>
                             <select id="size" name="size">
                                 <option value='LP'>LP</option>
@@ -42,6 +42,39 @@
                             </select></p>
                     </div>
                 </div>
+                    <div id="sandwich2">
+                        <div id="labelside">
+                            <p>Jacket Type:</p>
+                            <p>DLC Type:</p>
+                            <p id="insertOptionsLabel">Insert Types:</p>
+                        </div>
+                        <div id="inputSide">
+                            <p><select id="jacketType" name="jacketType" >
+                                <option value='Single Pocket DTB'>Single Pocket DTB</option>
+                                <option value='Gatefold DTB'> Gatefold DTB</option>
+                                <option value="Single Pocket Gatefold DTB">Single Pocket Gatefold DTB</option>
+                                <option value="Single Pocket Case Wrapped">Single Pocket Case Wrapped</option>
+                                <option value="Gatefold Case Wrapped">Gatefold Case Wrapped</option>
+                                <option value="Single Pocket Gatefold Case Wrapped">Single Pocket Gatefold Case Wrapped</option>
+                            </select></p>
+
+                            <p><label for="r1" class="radioLabel"><input type="radio" id="r1" class="newProjRadio"
+                                name="dlcType" value="Furnace DL Card"><span class="raydio"></span>Furnace</label>
+                                <label for="r2" class="radioLabel"><input type="radio" id="r2" class="newProjRadio" name="dlcType" value="4x4 DL Card"><span class="raydio"></span>4x4</label>
+                                <label for="r3" class="radioLabel"><input type="radio" id="r3" class="newProjRadio" name="dlcType" value="Custom DL Card"><span class="raydio"></span>Custom</label>
+                            </p>
+                            
+                            <p id="insertOptionsButtons"><label for="c1" class="radioLabel"><input type="checkbox" id="c1" 
+                                class="newProjRadio" name="insertType1" value="11x11 insert"><span class="raydio"></span>11x11</label>
+                                <label for="c2" class="radioLabel"><input type="checkbox" id="c2" 
+                                class="newProjRadio" name="insertType2" value="8x11 insert"><span class="raydio"></span>8x11</label>
+                                <label for="c3" class="radioLabel"><input type="checkbox" id="c3" 
+                                class="newProjRadio" name="insertType3" value="Poster insert"><span class="raydio"></span>Poster</label>
+                                <label for="c4" class="radioLabel"><input type="checkbox" id="c4" 
+                                class="newProjRadio" name="insertType4" value="CD insert"><span class="raydio"></span>CD</label>
+                            </p>
+                        </div>
+                    </div>
                 <input id="newProjectSubmit" name="newProjectSubmit" type="submit" value="Create New Project">
             </form>
         </div>
@@ -89,8 +122,22 @@
             //change what ajax is sending based on what button was pressed
             switch(postType){
                 case 'newProj':
+                    var dlcType="";
+                    var insertType="";
+                    if(formData['dlcType'] != undefined){
+                        dlcType = ", "+formData['dlcType'];
+                    }
+                    for (var i=1;i<=4;i++){
+                        if(formData['insertType'+i] != undefined){
+                        insertType=insertType+", "+formData['insertType'+i];
+                    }
+                    }
+                    
                     serializedData = 'newProj='+formData['name']+"||"+formData['firstStation']+"||"+formData['lastStation']+"||"
-                        +formData['totalMade']+"||"+formData['numDiscs']+", "+formData['numInserts']+", "+formData['size'];
+                        +formData['totalMade']+"||"+formData['numDiscs']+", "+formData['numInserts']+", "+formData['size']+", "
+                        +formData['jacketType']+dlcType+insertType;
+                    
+                    alert(serializedData);
                     break;
                     
                 case 'endProj':
@@ -213,23 +260,57 @@
                 });
                 sendData(dataObj, "cngStations");
             });
+            
+            $('#numInserts').change(function(event){
+                 if($('#numInserts').val()>0){
+                     document.getElementById("insertOptionsLabel").style.visibility="visible";
+                     document.getElementById("insertOptionsButtons").style.visibility="visible";
+                     document.getElementById("sandwich2").style.height="140px"
+                 }else{
+                     document.getElementById("insertOptionsLabel").style.visibility="hidden";
+                     document.getElementById("insertOptionsButtons").style.visibility="hidden";
+                     document.getElementById("sandwich2").style.height="100px"
+                 }
+            })
 
             $('#result').text('javascript OK');
             //$('#newProjectForm').submit(function(event) {alert('wow');});
+            
+            
         });
         
-        
+        // make the debugger appear (click e)
         $(document).keydown(function(e){
             switch(e.keyCode) {
                 case 69:
 				    stats = !stats;
                     break;
                             }
-        if (stats){ 	
-            document.getElementById('result').style.visibility = 'visible';
-        }else{
-            document.getElementById('result').style.visibility = 'hidden';
-        }
+            if (stats){ 	
+                document.getElementById('result').style.visibility = 'visible';
+            }else{
+                document.getElementById('result').style.visibility = 'hidden';
+            }
+        });
+        
+        //be able to click on a checked radio button to uncheck it
+        //$ = jQuery;
+        $(':radio').mousedown(function(e){
+          var $self = $(this);
+          if( $self.is(':checked') ){
+            var uncheck = function(){
+              setTimeout(function(){$self.removeAttr('checked');},0);
+            };
+            var unbind = function(){
+              $self.unbind('mouseup',up);
+            };
+            var up = function(){
+              uncheck();
+              unbind();
+            };
+            $self.bind('mouseup',up);
+            $self.one('mouseout', unbind);
+          }
         });
         
     </script>

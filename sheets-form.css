@@ -98,6 +98,42 @@ select{
     right: 0px;
 }
 
+#sandwich2{
+    width: 100%;
+    height: 100px;
+    position: relative;
+    display: block;
+}
+
+#labelSide{
+    position: absolute;
+    text-align: right;
+    width: 120px;
+    background: blue;
+}
+
+#inputSide{
+    position: absolute;
+    width: 374px;
+    right: 0px;
+    background: red;
+}
+
+#insertOptionsLabel{
+    visibility: collapse;
+    height: 0;
+}
+
+#insertOptionsButtons{
+    visibility: collapse;
+    height: 0;
+}
+
+#newProjectFormWrapper #jacketType{
+    position: absolute;
+    width: 100%;
+}
+
 #newProjectFormWrapper #newProjectSubmit{
     width: 80%;
     text-align: center;
@@ -105,11 +141,43 @@ select{
     margin: auto;
     margin-top: 20px;
     font-size: 18px;
+    z-index: 9999;
 }
 
 .newProjectLabel{
     position: absolute;
     right: 106px;
+}
+
+.newProjRadio{
+    position: absolute;
+    top: 0px;
+    left: -30px;
+    height: 20px;
+    width: 20px;
+    z-index: 1000;
+    opacity: 0;
+}
+
+.raydio{
+    position: absolute;
+    top: 0px;
+    left: -30px;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+.radioLabel{
+    position: relative;
+    margin-left: 30px;
+    margin-right: 10px;
+}
+
+.radioLabel input:checked ~ .raydio {
+    background-color: #000;
 }
 
 #newProjectTitle{
