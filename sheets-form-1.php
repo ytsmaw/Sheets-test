@@ -45,7 +45,6 @@
                 <input id="newProjectSubmit" name="newProjectSubmit" type="submit" value="Create New Project">
             </form>
         </div>
-        <p id="result"></p>
 
         <div id="activeProjectsTitle">ACTIVE PROJECTS</div>
         <div id="activeProjects">
@@ -59,11 +58,17 @@
             ?>
         </div>
     </div>
+    
+    <div id="result">something has gone wrong</div>
  
-    <script type="text/javascript">        
+    <script type="text/javascript">    
+        document.getElementById('result').style.visibility = 'hidden';
+        $('#result').text('everything is not necessarily fine');
         // variable to hold request
         var request;
         var phprequest;
+        var serializedData;
+        var stats = false;
         
         // bind to the submit event of our form
         function sendData(formData,postType){
@@ -81,12 +86,28 @@
             // Disabled form elements will not be serialized.
             $('#result').text('Sending data...');
             
+            //change what ajax is sending based on what button was pressed
+            switch(postType){
+                case 'newProj':
+                    serializedData = 'newProj='+formData['name']+"||"+formData['firstStation']+"||"+formData['lastStation']+"||"
+                        +formData['totalMade']+"||"+formData['numDiscs']+", "+formData['numInserts']+", "+formData['size'];
+                    break;
+                    
+                case 'endProj':
+                    serializedData = 'endProj='+formData['projectName'];
+                    break;
+                    
+                case 'cngStations':
+                    serializedData = 'cngStations='+formData['projectName']+"||"
+                        +formData['projectFirstStation']+"||"+formData['projectLastStation'];
+                    break;
+                           }
             
             // fire off the request to /form.php
             request = $.ajax({
                 url: "https://script.google.com/macros/s/AKfycbxv4wFDp2dwwAG9Wx51g7AUy1F_ZEH1UvkKBwbQiBBQtvLtleI/exec",
                 type: "get",
-                data: formData
+                data: serializedData
             });
             
             
@@ -97,20 +118,49 @@
                 $('#result').text('AJAX done, now for PHP');
                 console.log("Hooray, it worked!");
                 
-                phprequest = $.ajax({
-                    url: 'SheetsPHP.php',
-                    type: 'post',
-                    data: {
-                        newProj: "start",
-                        name: 'project triggered by ajax',
-                        firstStation: "1",
-                        lastStation: "2",
-                        totalMade: '20'
-                    }
-                    
-                });
+                
+                switch(postType){
+                    case 'newProj':
+                        phprequest = $.ajax({
+                            url: 'SheetsPHP.php',
+                            type: 'post',
+                            data: {
+                                newProj: "start",
+                                name: formData['name'],
+                                firstStation: formData['firstStation'],
+                                lastStation: formData['lastStation'],
+                                totalMade: formData['totalMade']
+                            }
+                        });
+                        break;
+                        
+                    case 'endProj':
+                        phprequest = $.ajax({
+                            url: 'SheetsPHP.php',
+                            type: 'post',
+                            data: {
+                                endProj: "start",
+                                projectID: formData['projectID']
+                               }
+                        });
+                        break;
+                        
+                    case 'cngStations':
+                        phprequest = $.ajax({
+                            url: 'SheetsPHP.php',
+                            type: 'post',
+                            data: {
+                                cngStations: "start",
+                                projectID: formData['projectID'],
+                                projectFirstStation: formData['projectFirstStation'],
+                                projectLastStation: formData['projectLastStation']
+                               }
+                        });
+                        break;
+                               }
                 
                 $('#result').text('php done');
+                location.reload(true);
             });
 
             // callback handler that will be called on failure
@@ -135,12 +185,51 @@
         }
         
         $(document).ready(function( $ ) {
+            //new project jquery
             $('#newProjectForm').submit(function(event) {
-                sendData("newProj=hello||1||2||4||nice", "wow");
+                var dataArray = $(this).serializeArray(); //get the data from the form
+                var dataObj = {};
+                $(dataArray).each(function(i, field){
+                  dataObj[field.name] = field.value;   //put it in a way that's easy to read
+                });
+                sendData(dataObj, "newProj");  //send it to the sheet and PHP
+            });
+            
+            //end project jquery
+            $('.endProjForm').submit(function(event) {
+                var dataArray = $(this).serializeArray();
+                var dataObj = {};
+                $(dataArray).each(function(i, field){
+                  dataObj[field.name] = field.value;
+                });
+                sendData(dataObj, "endProj");
+            });
+            
+            $('.changeStationsForm').submit(function(event) {
+                var dataArray = $(this).serializeArray();
+                var dataObj = {};
+                $(dataArray).each(function(i, field){
+                  dataObj[field.name] = field.value;
+                });
+                sendData(dataObj, "cngStations");
             });
 
-            $('#result').load('javascript here!');
+            $('#result').text('javascript OK');
             //$('#newProjectForm').submit(function(event) {alert('wow');});
+        });
+        
+        
+        $(document).keydown(function(e){
+            switch(e.keyCode) {
+                case 69:
+				    stats = !stats;
+                    break;
+                            }
+        if (stats){ 	
+            document.getElementById('result').style.visibility = 'visible';
+        }else{
+            document.getElementById('result').style.visibility = 'hidden';
+        }
         });
         
     </script>

@@ -1,16 +1,22 @@
 <!--{projectID}-->
 <div class="projectWrapper" style="background:{bgColor}">
     <div class="projectName">{name}</div>
-    <form action="" method="post">
+    <form class='endProjForm' action="" method="post">
         <input type="hidden" name="projectID" value="{projectID}"/>
         <input type="hidden" name="projectName" value="{name}"/>
         <input type="submit" name="endProjButton" class="endProjectButton" value="End Project">
     </form>
     <form class="changeStationsForm">
         <p><label for="projectFirstStation">First Station:</label>
+            <input type="hidden" name="projectName" value="{name}"/>
+            <input type="hidden" name="projectID" value="{projectID}"/>
+            <!--st1{projectID}-->
             <input class="stationField" name="projectFirstStation" type="number" value="{firstStation}" min=1; max=8>
+            <!--/st1{projectID}-->
             <label for="projectLastStation">Last Station:</label>
+            <!--st2{projectID}-->
             <input class="stationField" name="projectLastStation" type="number" value="{lastStation}" min=1; max=8>
+            <!--/st2{projectID}-->
             <input class="projectCngStationSubmit" type="submit" value="Change Stations"></p>
     </form>
     <p class="projectTotalMade">Total made: {totalMade}</p> <p class="projectDate">{date}</p>

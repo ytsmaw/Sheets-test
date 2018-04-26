@@ -184,3 +184,15 @@ select{
     right: 5px;
     bottom: 5px;
 }
+
+#result{
+    font: 12px courier;
+    margin: 0px;
+    height: auto;
+    position: fixed;
+    background: black;
+    color: white;
+    left: 0px;
+    bottom: 0px;
+    z-index: 1000;
+}
